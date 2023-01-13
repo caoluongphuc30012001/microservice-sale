@@ -13,6 +13,7 @@ services:
       - MYSQL_PASSWORD=password
       - MYSQL_HOST=mysql-server
       - MYSQL_PORT=3306
+      - AMQP_URL=amqp://rabbitmq-server
     volumes:
       - ./auth-server:/app/auth-server
   mysql-server:
@@ -26,3 +27,9 @@ services:
       MYSQL_PASSWORD: password
     volumes:
       - ./db:/var/lib/mysql
+  rabbitmq-server:
+    image: rabbitmq:3.11-management
+    container_name: rabbitmq-service
+    ports:
+      - 5672:5672
+      - 15672:15672

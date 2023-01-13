@@ -1,12 +1,18 @@
 const db = require("../databases/mysql.init");
 const jsonwebtoken = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const sender = require("../rabbitmq/sender");
 
 class AuthService {
   //service of controllers
 
   async register(userPayload, action) {
     try {
+      await sender(
+        "send_email",
+        "verify_account",
+        "Please verify your account"
+      );
       const { email, password, fullName } = userPayload;
       let hashPassword = bcrypt.hash(password, 10);
       const registerQuery = `insert into User(email, password, fullName) values('${email}','${hashPassword}','${fullName}');`;

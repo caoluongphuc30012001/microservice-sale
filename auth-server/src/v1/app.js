@@ -1,5 +1,5 @@
 const express = require("express");
-const authRouter = require("./v1/routers/auth.router.js");
+const authRouter = require("./routers/auth.router.js");
 require("dotenv").config();
 const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUI = require("swagger-ui-express");
