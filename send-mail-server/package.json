@@ -1,0 +1,14 @@
+{
+  "name": "send-mail-server",
+  "version": "1.0.0",
+  "main": "server.js",
+  "license": "MIT",
+  "dependencies": {
+    "amqplib": "^0.10.3",
+    "dotenv": "^16.0.3",
+    "nodemailer": "^6.9.0"
+  },
+  "devDependencies": {
+    "@types/amqplib": "^0.10.1"
+  }
+}
