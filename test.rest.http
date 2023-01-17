@@ -1,4 +1,37 @@
 
 
 GET http://localhost:4000
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzIsImVtYWlsIjoicGh1Y2Nhby4zMDAxMjAwMUBnbWFpbC5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2NzM5NDg5MzIsImV4cCI6MTY3Mzk0OTIzMn0.tiIfZM0vmDoeHT-p8Ah-3B_GZTIUlxFh-d3JOnkAw28
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzIsImVtYWlsIjoicGh1Y2Nhby4zMDAxMjAwMUBnbWFpbC5jb20iLCJyb2xlIjoiYWRtaW4ifQ._vQ9PNfdC9JKD4TPfPjocp8Hvo1PsKFlvxUp-NRyWLQ
+
+
+### Tạo brand mới
+POST  http://localhost:4000/v1/api/brand
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzIsImVtYWlsIjoicGh1Y2Nhby4zMDAxMjAwMUBnbWFpbC5jb20iLCJyb2xlIjoiYWRtaW4ifQ._vQ9PNfdC9JKD4TPfPjocp8Hvo1PsKFlvxUp-NRyWLQ
+Content-Type: application/json
+
+{
+  "name":"Thiên Long",
+  "country":"Việt Nam"
+}
+
+### Lấy toàn bộ brand
+GET http://localhost:4000/v1/api/brand
+
+### Update brand
+
+PUT http://localhost:4000/v1/api/brand
+Content-Type: application/json
+
+{
+  "id":1,
+  "description":"Đây là hãng bút nổi tiếng ở Việt Nam"
+}
+
+### Xóa brand
+
+DELETE http://localhost:4000/v1/api/brand
+Content-Type: application/json
+
+{
+  "id":1
+}
