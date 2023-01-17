@@ -1,9 +1,13 @@
 const express = require("express");
 require("dotenv").config();
+const {
+  authorizationAdmin,
+} = require("./middlewares/authorization.middleware");
 const PORT = process.env.PORT || 4000;
 
 const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUI = require("swagger-ui-express");
+const authToken = require("./middlewares/token.middleware");
 
 const app = express();
 
@@ -33,5 +37,9 @@ const options = {
 const specs = swaggerJsdoc(options);
 
 app.use("/v1/api/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
+
+app.use("/", (req, res) => {
+  res.send("Welcome to my application");
+});
 
 module.exports = app;

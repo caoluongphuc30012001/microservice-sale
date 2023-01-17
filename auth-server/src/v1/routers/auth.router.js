@@ -107,6 +107,8 @@ router.post("/login", authController.login);
 
 router.post("/refresh-token", authController.refreshToken);
 
+router.get("/verify/:verifyToken", authController.verify);
+
 router.get("/", (req, res) => {
   res.status(200).send("Welcomes to the app!");
 });

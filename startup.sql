@@ -15,4 +15,36 @@ create table User(
   UNIQUE(email)
 );
 
-UPDATE mysql.user SET Password=PASSWORD('password') WHERE User='root'; 
+create table Category(
+  id int PRIMARY KEY auto_increment not null,
+  name varchar(255) not null,
+  description varchar(255)
+);
+
+create table Brand(
+  id int PRIMARY KEY auto_increment not null,
+  name varchar(255) not null,
+  country varchar(255) not null,
+  description varchar(255)
+);
+
+create table Product(
+  id int PRIMARY KEY auto_increment not null,
+  categoryId int not null,
+  name varchar(255) not null,
+  price int not NULL,
+  quantity int not null DEFAULT 1,
+  image text not null,
+  star FLOAT not null DEFAULT 5,
+  quantityVote int not null DEFAULT 1
+);
+
+create table ProductDetail(
+  id int PRIMARY KEY auto_increment not null,
+  productId int not null,
+  FOREIGN key(productId) references Product(id),
+  description varchar(255),
+  brandId int not null,
+  FOREIGN key(brandId) references Brand(id),
+  code int
+);

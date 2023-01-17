@@ -8,18 +8,22 @@ class AuthService {
 
   async register(userPayload, action) {
     try {
-      await sender(
-        "send_email",
-        "verify_account",
-        "Please verify your account"
-      );
       const { email, password, fullName } = userPayload;
-      let hashPassword = bcrypt.hash(password, 10);
+      let hashPassword = await bcrypt.hash(password, 10);
       const registerQuery = `insert into User(email, password, fullName) values('${email}','${hashPassword}','${fullName}');`;
 
-      db.query(registerQuery, (err) => {
+      db.query(registerQuery, async (err) => {
         if (err) action(err.message);
-        else action("I send you email to verify your email");
+        else {
+          const verifyToken = await this.createTokenVerify({ email, password });
+          const message = JSON.stringify({
+            email: email,
+            message: `
+            Chào mừng bạn đến với website bán hàng của chúng thôi. Quý khách cần xác thực email trước khi tiến hành mua hàng ở website chúng tôi. Để xác thực email quý khách vui lòng bấm vào: http://localhost:3000/v1/api/auth/verify/${verifyToken}`,
+          });
+          await sender("send_email", "verify_account", message);
+          action("I send you email to verify your email");
+        }
       });
     } catch (error) {
       action(error.message);
@@ -35,13 +39,7 @@ class AuthService {
           const user = result.pop();
           const checkPassword = await bcrypt.compare(password, user.password);
           if (checkPassword) {
-            const payloadToken = {
-              id: user.id,
-              email: user.email,
-              role: user.role,
-            };
-
-            const result = await this.createTokenLogin(payloadToken);
+            const result = await this.createTokenLogin(user);
 
             action(result);
           } else action("Mật khẩu không đúng");
@@ -56,20 +54,37 @@ class AuthService {
 
   async refreshToken(refreshToken, action) {
     try {
-      const user = await jsonwebtoken.verify(
+      const payload = await jsonwebtoken.verify(
         refreshToken,
         process.env.JWT_REFRESH_TOKEN_SECRET
       );
 
-      const payloadToken = {
-        id: user.id,
-        email: user.email,
-        role: user.role,
-      };
-
-      const result = await this.createTokenLogin(payloadToken);
+      const result = await this.createTokenLogin(payload);
 
       action(result);
+    } catch (error) {
+      action(error.message);
+    }
+  }
+
+  async verify(verifyToken, action) {
+    try {
+      await jsonwebtoken.verify(
+        verifyToken,
+        process.env.JWT_TOKEN_VERIFY_SECRET,
+        (err, result) => {
+          if (err) action(err.message);
+          else {
+            const { email } = result;
+            const verifyQuery = `update User set isActive=true where email = ?`;
+
+            db.query(verifyQuery, [email], (err) => {
+              if (err) action(err.message);
+              else action("Xác thực tài khoản thành công");
+            });
+          }
+        }
+      );
     } catch (error) {
       action(error.message);
     }
@@ -78,24 +93,53 @@ class AuthService {
   //Function to create token and refresh token
 
   async createTokenLogin(payload) {
-    const accessToken = jsonwebtoken.sign(
-      payload,
-      process.env.JWT_TOKEN_SECRET,
-      {
-        expiresIn: "5m",
-      }
-    );
-    const refreshToken = jsonwebtoken.sign(
-      payload,
-      process.env.JWT_REFRESH_TOKEN_SECRET,
-      {
-        expiresIn: "10m",
-      }
-    );
-    return {
-      accessToken,
-      refreshToken,
-    };
+    try {
+      const payloadToken = {
+        id: payload.id,
+        email: payload.email,
+        role: payload.role,
+      };
+      const accessToken = jsonwebtoken.sign(
+        payloadToken,
+        process.env.JWT_TOKEN_SECRET,
+        {
+          expiresIn: "5m",
+        }
+      );
+      const refreshToken = jsonwebtoken.sign(
+        payloadToken,
+        process.env.JWT_REFRESH_TOKEN_SECRET,
+        {
+          expiresIn: "10m",
+        }
+      );
+      return {
+        accessToken,
+        refreshToken,
+      };
+    } catch (error) {
+      return error.message;
+    }
+  }
+
+  async createTokenVerify(payload) {
+    try {
+      const payloadToken = {
+        password: payload.password,
+        email: payload.email,
+      };
+
+      const tokenVerify = await jsonwebtoken.sign(
+        payloadToken,
+        process.env.JWT_TOKEN_VERIFY_SECRET,
+        {
+          expiresIn: "10m",
+        }
+      );
+      return tokenVerify;
+    } catch (error) {
+      return error.message;
+    }
   }
 }
 
