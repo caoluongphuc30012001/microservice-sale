@@ -1,8 +1,6 @@
 const express = require("express");
+const brandRouter = require("./routers/brand.route");
 require("dotenv").config();
-const {
-  authorizationAdmin,
-} = require("./middlewares/authorization.middleware");
 const PORT = process.env.PORT || 4000;
 
 const swaggerJsdoc = require("swagger-jsdoc");
@@ -37,6 +35,10 @@ const options = {
 const specs = swaggerJsdoc(options);
 
 app.use("/v1/api/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
+
+//app use brand router
+
+app.use("/v1/api/brand", brandRouter);
 
 app.use("/", (req, res) => {
   res.send("Welcome to my application");

@@ -7,5 +7,4 @@ let db = mysql.createPool({
   port: process.env.MYSQL_PORT,
   database: "sale",
 });
-
 module.exports = db;
