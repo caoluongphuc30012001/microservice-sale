@@ -35,3 +35,73 @@ Content-Type: application/json
 {
   "id":1
 }
+
+### find a brand by id
+GET http://localhost:4000/v1/api/brand/2
+
+### create a category
+POST http://localhost:4000/v1/api/category
+Content-Type: application/json
+
+{
+  "name":"Bút bi"
+}
+
+###update a category
+PUT http://localhost:4000/v1/api/category
+Content-Type: application/json
+
+{
+  "id":"1",
+  "name":"Bút bi",
+  "description":"Đây là bút bi"
+}
+
+###Lấy toàn bộ danh sách category
+GET http://localhost:4000/v1/api/category
+
+### get a category by id
+GET http://localhost:4000/v1/api/category/1
+
+### Xóa một category
+DELETE http://localhost:4000/v1/api/category
+Content-Type: application/json
+
+
+{
+  "id": 1
+}
+
+### tạo một sản phẩm mới
+POST http://localhost:4000/v1/api/product
+Content-Type: application/json
+
+{
+  "name":"Bút bi 036",
+  "categoryId":3,
+  "price":3000,
+  "quantity":100,
+  "image":"https://file.hstatic.net/1000230347/collection/tl027.jpg",
+  "brandId":2
+}
+
+### Cập nhật một sản phẩm mới
+PUT http://localhost:4000/v1/api/product
+Content-Type: application/json
+
+{
+  "id":8,
+  "name":"Bút bi 036",
+  "categoryId":3,
+  "price":2000,
+  "description":"Bút bi đẹp"
+}
+
+
+### Lấy danh sách sản phẩm
+GET http://localhost:4000/v1/api/product
+
+###Lấy thông tin chi tiết của 1 sản phẩm
+GET  http://localhost:4000/v1/api/product/8
+
+
