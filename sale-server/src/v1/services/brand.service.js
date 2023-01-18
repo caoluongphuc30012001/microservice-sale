@@ -54,6 +54,19 @@ class BrandService {
       action(error.message);
     }
   }
+
+  async findBrandId(payload, action) {
+    try {
+      const { id } = payload;
+      const findBrandIdQuery = `select * from Brand where id = ?`;
+      db.query(findBrandIdQuery, [id], (err, result) => {
+        if (err) action(err.message);
+        else action(result[0]);
+      });
+    } catch (error) {
+      action(error.message);
+    }
+  }
 }
 
 module.exports = new BrandService();

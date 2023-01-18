@@ -1,9 +1,9 @@
-const brandService = require("../services/brand.service");
+const productService = require("../services/product.service");
 
-class BrandController {
-  async createBrand(req, res) {
+class ProductController {
+  async createProduct(req, res) {
     try {
-      await brandService.createBrand(req.body, (result) => {
+      await productService.createProduct(req.body, (result) => {
         res.status(200).send({
           code: 0,
           data: result,
@@ -17,9 +17,9 @@ class BrandController {
     }
   }
 
-  async getAllBrand(req, res) {
+  async updateProduct(req, res) {
     try {
-      await brandService.getAllBrand((result) => {
+      await productService.updateProduct(req.body, (result) => {
         res.status(200).send({
           code: 0,
           data: result,
@@ -33,9 +33,9 @@ class BrandController {
     }
   }
 
-  async updateBrand(req, res) {
+  async getAllProduct(req, res) {
     try {
-      await brandService.updateBrand(req.body, (result) => {
+      await productService.getAllProduct((result) => {
         res.status(200).send({
           code: 0,
           data: result,
@@ -49,9 +49,9 @@ class BrandController {
     }
   }
 
-  async deleteBrand(req, res) {
+  async findProductById(req, res) {
     try {
-      await brandService.deleteBrand(req.body, (result) => {
+      await productService.findProductById({ id: req.params.id }, (result) => {
         res.status(200).send({
           code: 0,
           data: result,
@@ -65,9 +65,9 @@ class BrandController {
     }
   }
 
-  async findBrandId(req, res) {
+  async deleteProduct(req, res) {
     try {
-      await brandService.findBrandId({ id: req.params.brandId }, (result) => {
+      await productService.deleteProduct(req.body, (result) => {
         res.status(200).send({
           code: 0,
           data: result,
@@ -75,11 +75,11 @@ class BrandController {
       });
     } catch (error) {
       res.status(500).send({
-        code: 0,
+        code: 1,
         error: error.message,
       });
     }
   }
 }
 
-module.exports = new BrandController();
+module.exports = new ProductController();

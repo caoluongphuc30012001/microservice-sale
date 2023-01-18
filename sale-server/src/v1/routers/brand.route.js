@@ -14,4 +14,6 @@ router.post("/", authToken, authorizationAdmin, brandController.createBrand);
 router.put("/", authToken, authorizationAdmin, brandController.updateBrand);
 
 router.delete("/", authToken, authorizationAdmin, brandController.deleteBrand);
+
+router.get("/:brandId", brandController.findBrandId);
 module.exports = router;
