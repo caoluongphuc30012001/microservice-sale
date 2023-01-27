@@ -113,4 +113,6 @@ router.get("/", (req, res) => {
   res.status(200).send("Welcomes to the app!");
 });
 
+router.post("/forgot-password", authController.forgotPassword);
+
 module.exports = router;

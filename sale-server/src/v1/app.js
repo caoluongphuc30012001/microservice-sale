@@ -28,6 +28,18 @@ const options = {
         email: "phuccao.30012001@gmail.com",
       },
     },
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+        },
+      },
+    },
+    security: {
+      bearerAuth: [],
+    },
     servers: [{ url: `http://localhost:${PORT}/v1/api` }],
   },
   apis: ["src/v1/routers/*.js"],

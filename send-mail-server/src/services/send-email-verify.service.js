@@ -10,7 +10,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const sendEmail = async (toEmail, message) => {
+const sendEmailVerify = async (toEmail, message) => {
   try {
     const mailOptions = {
       from: process.env.SMTP_EMAIL_ADDRESS,
@@ -25,4 +25,4 @@ const sendEmail = async (toEmail, message) => {
   }
 };
 
-module.exports = sendEmail;
+module.exports = sendEmailVerify;

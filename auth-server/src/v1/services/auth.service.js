@@ -90,6 +90,29 @@ class AuthService {
     }
   }
 
+  async forgotPassword(payload, action) {
+    try {
+      const { email } = payload;
+      const forgotPasswordQuery = `select password from User where email = ?`;
+      db.query(forgotPasswordQuery, [email], async (err, result) => {
+        if (err) action(err.message);
+        else if (result.length <= 0) action("Email chưa đăng kí tài khoản");
+        else {
+          const password = result[0].password;
+          const message = JSON.stringify({
+            email: email,
+            message: `
+            Mật khẩu của bạn là ${bcrypt.getRounds(password)}}`,
+          });
+          await sender("send_email", "forgot-password", message);
+          action("I send your password to your email");
+        }
+      });
+    } catch (error) {
+      action(error.message);
+    }
+  }
+
   //Function to create token and refresh token
 
   async createTokenLogin(payload) {

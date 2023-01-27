@@ -83,6 +83,10 @@ services:
       - my-networks
     environment:
       - PORT=4000
+      - MYSQL_HOST=mysql-server
+      - MYSQL_PORT=3306
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=password
     depends_on:
       - mysql-server
     volumes:
