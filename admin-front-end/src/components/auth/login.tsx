@@ -1,9 +1,14 @@
 import React from "react";
 import { Button, Checkbox, Form, Input } from "antd";
 import style from "@/components/auth/style.module.scss";
+import axios from "axios";
 
-const onFinish = (values: any) => {
-  console.log("Success:", values);
+const onFinish = async () => {
+  try {
+    const result = await axios.post(process.env.BACKEND_AUTH_URL);
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 const onFinishFailed = (errorInfo: any) => {
@@ -21,6 +26,7 @@ const LoginSection: React.FC = () => (
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
       autoComplete="off"
+      className={style["login-form"]}
     >
       <Form.Item
         label="Username"
