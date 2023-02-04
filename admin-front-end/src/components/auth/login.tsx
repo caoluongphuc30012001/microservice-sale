@@ -2,10 +2,21 @@ import React from "react";
 import { Button, Checkbox, Form, Input } from "antd";
 import style from "@/components/auth/style.module.scss";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { login } from "@/actions/user";
 
 const onFinish = async () => {
   try {
     const result = await axios.post(process.env.BACKEND_AUTH_URL);
+    const user = result.data.data;
+    const dispatch = useDispatch();
+    if (user.email) {
+      const action = login(user);
+
+      dispatch(action);
+    } else {
+      [console.log(result.data.data)];
+    }
   } catch (error) {
     console.error(error);
   }
