@@ -4,10 +4,22 @@ import style from "@/components/auth/style.module.scss";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { login } from "@/actions/user";
+import getConfig from "next/config";
 
-const onFinish = async () => {
+type LoginFormProps = {
+  email: string;
+  password: string;
+};
+
+const onFinish = async (value: LoginFormProps) => {
   try {
-    const result = await axios.post(process.env.BACKEND_AUTH_URL);
+    const { serverRuntimeConfig } = getConfig();
+    console.log(serverRuntimeConfig)
+    const url = serverRuntimeConfig.auth_url || "http://localhost:3000";
+    const result = await axios.post(url+"/v1/api/auth/login", {
+      email: value.email,
+      password: value.email,
+    });
     const user = result.data.data;
     const dispatch = useDispatch();
     if (user.email) {
@@ -40,9 +52,9 @@ const LoginSection: React.FC = () => (
       className={style["login-form"]}
     >
       <Form.Item
-        label="Username"
-        name="username"
-        rules={[{ required: true, message: "Please input your username!" }]}
+        label="email"
+        name="email"
+        rules={[{ required: true, message: "Please input your email!" }]}
       >
         <Input />
       </Form.Item>

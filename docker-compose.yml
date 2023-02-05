@@ -91,6 +91,25 @@ services:
       - mysql-server
     volumes:
       - ./sale-server:/app/sale-server
+    healthcheck:
+      test:  echo "healthy"
+      interval: 50s
+      timeout: 10s
+      retries: 5
+
+  admin-front-end:
+    build: ./admin-front-end
+    container_name: admin-front-end
+    ports:
+      - 5000:5000
+    networks:
+      - my-networks
+    environment:
+      BACKEND_AUTH_URL: auth-server
+      ACKEND_SALE_URL: sale-server
+      PORT: 5000
+    volumes:
+      - ./admin-front-end:/app/admin-front-end
 networks:
   my-networks:
     driver: bridge
