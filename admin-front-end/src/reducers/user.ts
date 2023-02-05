@@ -33,7 +33,24 @@ const initialstate = {
 
 const userReducer = createReducer(initialstate, {
   login: (_, action) => {
+    console.log("login");
     return action.payload;
+  },
+  logout: (_, state) => {
+    console.log("logout");
+    return {
+      id: null,
+      email: null,
+      fullName: null,
+      phoneNumber: null,
+      birthday: null,
+      avatar: null,
+      street: null,
+      ward: null,
+      district: null,
+      province: null,
+      role: null,
+    };
   },
 });
 
