@@ -5,4 +5,11 @@ const login = (payload: Object) => {
   };
 };
 
-export { login };
+const logout = (payload: Object) => {
+  return {
+    type: "logout",
+    payload: payload,
+  };
+};
+
+export { login, logout };
