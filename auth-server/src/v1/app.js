@@ -3,8 +3,15 @@ const authRouter = require("./routers/auth.router.js");
 require("dotenv").config();
 const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUI = require("swagger-ui-express");
+const cors = require("cors");
 
 const app = express();
+app.use(
+  cors({
+    origin: "*",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  })
+);
 
 app.use(express.json());
 

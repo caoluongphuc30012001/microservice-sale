@@ -10,6 +10,14 @@ const swaggerUI = require("swagger-ui-express");
 
 const app = express();
 
+const cors = require("cors");
+app.use(
+  cors({
+    origin: "*",
+    method: "GET,PUT,PATCH,POST,DELETE",
+  })
+);
+
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));

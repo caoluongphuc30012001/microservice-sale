@@ -6,11 +6,21 @@ import { useDispatch } from "react-redux";
 import { login } from "@/actions/user";
 import getConfig from "next/config";
 
+type TypeValueForm = {
+  email: string;
+  password: string;
+}
+
 const LoginSection: React.FC = () => {
   const dispatch = useDispatch();
-  const onFinish = async () => {
+  const onFinish = async ({email,password}:TypeValueForm) => {
     try {
-      const result = await axios.post(process.env.BACKEND_AUTH_URL);
+      const url = process.env.BACKEND_AUTH_URL||"http://localhost:3000";
+      console.log(url)
+      const result = await axios.post(url+"/v1/api/auth/login", {
+        email,
+        password
+      });
       const user = result.data.data;
       if (user.email) {
         const action = login(user);
@@ -41,9 +51,9 @@ const LoginSection: React.FC = () => {
         className={style["login-form"]}
       >
         <Form.Item
-          label="Username"
-          name="username"
-          rules={[{ required: true, message: "Please input your username!" }]}
+          label="email"
+          name="email"
+          rules={[{ required: true, message: "Please input your email!" }]}
         >
           <Input />
         </Form.Item>
