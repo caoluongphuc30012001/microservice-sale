@@ -32,7 +32,7 @@ class AuthService {
 
   async login({ email, password }, action) {
     try {
-      const loginQuery = `select id, password, email, role from User where email=?;`;
+      const loginQuery = `select * from User where email=?;`;
       db.query(loginQuery, [email], async (err, result) => {
         if (err) action(err.message);
         else if (result.length) {
@@ -40,7 +40,6 @@ class AuthService {
           const checkPassword = await bcrypt.compare(password, user.password);
           if (checkPassword) {
             const result = await this.createTokenLogin(user);
-
             action(result);
           } else action("Mật khẩu không đúng");
         } else {

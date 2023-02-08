@@ -9,17 +9,17 @@ import getConfig from "next/config";
 type TypeValueForm = {
   email: string;
   password: string;
-}
+};
 
 const LoginSection: React.FC = () => {
   const dispatch = useDispatch();
-  const onFinish = async ({email,password}:TypeValueForm) => {
+  const onFinish = async ({ email, password }: TypeValueForm) => {
     try {
-      const url = process.env.BACKEND_AUTH_URL||"http://localhost:3000";
-      console.log(url)
-      const result = await axios.post(url+"/v1/api/auth/login", {
+      const url = process.env.BACKEND_AUTH_URL || "http://localhost:3000";
+      console.log(url);
+      const result = await axios.post(url + "/v1/api/auth/login", {
         email,
-        password
+        password,
       });
       const user = result.data.data;
       if (user.email) {
