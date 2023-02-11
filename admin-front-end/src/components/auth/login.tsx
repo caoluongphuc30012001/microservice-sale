@@ -3,8 +3,10 @@ import { Button, Checkbox, Form, Input } from "antd";
 import style from "@/components/auth/style.module.scss";
 import axios from "axios";
 import { useDispatch } from "react-redux";
+import openNotification from "@/utils/notification";
+import { CloseCircleOutlined } from "@ant-design/icons";
 import { login } from "@/actions/user";
-import getConfig from "next/config";
+import token from "@/utils/token";
 
 type TypeValueForm = {
   email: string;
@@ -15,19 +17,21 @@ const LoginSection: React.FC = () => {
   const dispatch = useDispatch();
   const onFinish = async ({ email, password }: TypeValueForm) => {
     try {
-      const url = process.env.BACKEND_AUTH_URL || "http://localhost:3000";
-      console.log(url);
-      const result = await axios.post(url + "/v1/api/auth/login", {
+      const urlAuth = process.env.BACKEND_AUTH_URL || "http://localhost:3000";
+      const result = await axios.post(urlAuth + "/v1/api/auth/login", {
         email,
         password,
       });
-      const user = result.data.data;
-      if (user.email) {
-        const action = login(user);
-
-        dispatch(action);
+      if (result.data.data.accessToken) {
+        token.setAccessToken(result.data.data.accessToken);
+        token.setRefreshToken(result.data.data.refreshToken);
+        const urlSale = process.env.BACKEND_AUTH_URL || "http://localhost:4000";
+        const result1 = await axios.get(
+          urlSale + "/v1/api/user/get-own-information"
+        );
+        console.log(result1.data);
       } else {
-        console.log(result.data.data);
+        openNotification("Error", result.data.data, <CloseCircleOutlined />);
       }
     } catch (error) {
       console.error(error);

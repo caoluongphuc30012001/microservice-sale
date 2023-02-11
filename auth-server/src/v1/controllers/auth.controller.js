@@ -4,10 +4,7 @@ class AuthController {
   async register(req, res) {
     try {
       await authService.register(req.body, (result) => {
-        res.status(200).send({
-          code: 0,
-          data: result,
-        });
+        res.status(200).send(result);
       });
     } catch (error) {
       res.status(500).send({
@@ -20,10 +17,7 @@ class AuthController {
   async login(req, res) {
     try {
       await authService.login(req.body, (result) => {
-        res.status(200).send({
-          code: 0,
-          data: result,
-        });
+        res.status(200).send(result);
       });
     } catch (error) {
       res.status(500).send({
@@ -36,10 +30,7 @@ class AuthController {
   async refreshToken(req, res) {
     try {
       await authService.refreshToken(req.body.refreshToken, (result) => {
-        res.status(200).send({
-          code: 0,
-          data: result,
-        });
+        res.status(200).send(result);
       });
     } catch (error) {
       res.status(500).send({
@@ -65,10 +56,7 @@ class AuthController {
   async forgotPassword(req, res) {
     try {
       await authService.forgotPassword(req.body, (result) => {
-        res.status(200).send({
-          code: 0,
-          data: result,
-        });
+        res.status(200).send(result);
       });
     } catch (error) {
       res.status(500).send({

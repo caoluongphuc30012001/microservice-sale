@@ -13,7 +13,11 @@ class AuthService {
       const registerQuery = `insert into User(email, password, fullName) values('${email}','${hashPassword}','${fullName}');`;
 
       db.query(registerQuery, async (err) => {
-        if (err) action(err.message);
+        if (err)
+          action({
+            code: 1,
+            data: err.message,
+          });
         else {
           const verifyToken = await this.createTokenVerify({ email, password });
           const message = JSON.stringify({
@@ -22,11 +26,14 @@ class AuthService {
             Chào mừng bạn đến với website bán hàng của chúng thôi. Quý khách cần xác thực email trước khi tiến hành mua hàng ở website chúng tôi. Để xác thực email quý khách vui lòng bấm vào: http://localhost:3000/v1/api/auth/verify/${verifyToken}`,
           });
           await sender("send_email", "verify_account", message);
-          action("I send you email to verify your email");
+          action({
+            code: 0,
+            data: "I send you email to verify your email",
+          });
         }
       });
     } catch (error) {
-      action(error.message);
+      action({ code: 1, data: error.message });
     }
   }
 
@@ -34,20 +41,34 @@ class AuthService {
     try {
       const loginQuery = `select * from User where email=?;`;
       db.query(loginQuery, [email], async (err, result) => {
-        if (err) action(err.message);
+        if (err)
+          action({
+            code: 1,
+            data: err.message,
+          });
         else if (result.length) {
           const user = result.pop();
           const checkPassword = await bcrypt.compare(password, user.password);
           if (checkPassword) {
             const result = await this.createTokenLogin(user);
-            action(result);
-          } else action("Mật khẩu không đúng");
+            action({
+              code: 0,
+              data: result,
+            });
+          } else
+            action({
+              code: 1,
+              data: "Mật khẩu không đúng",
+            });
         } else {
-          action("Email của bạn không đúng");
+          action({
+            code: 1,
+            data: "Email của bạn không đúng",
+          });
         }
       });
     } catch (error) {
-      action(error.message);
+      action({ code: 1, data: error.message });
     }
   }
 
@@ -60,9 +81,12 @@ class AuthService {
 
       const result = await this.createTokenLogin(payload);
 
-      action(result);
+      action({
+        code: 0,
+        data: result,
+      });
     } catch (error) {
-      action(error.message);
+      action({ code: 201, data: error.message });
     }
   }
 
@@ -72,20 +96,32 @@ class AuthService {
         verifyToken,
         process.env.JWT_TOKEN_VERIFY_SECRET,
         (err, result) => {
-          if (err) action(err.message);
+          if (err)
+            action({
+              code: 1,
+              data: err.message,
+            });
           else {
             const { email } = result;
             const verifyQuery = `update User set isActive=true where email = ?`;
 
             db.query(verifyQuery, [email], (err) => {
-              if (err) action(err.message);
-              else action("Xác thực tài khoản thành công");
+              if (err)
+                action({
+                  code: 1,
+                  data: err.message,
+                });
+              else
+                action({
+                  code: 0,
+                  data: "Xác thực tài khoản thành công",
+                });
             });
           }
         }
       );
     } catch (error) {
-      action(error.message);
+      action({ code: 1, data: error.message });
     }
   }
 
@@ -94,8 +130,16 @@ class AuthService {
       const { email } = payload;
       const forgotPasswordQuery = `select password from User where email = ?`;
       db.query(forgotPasswordQuery, [email], async (err, result) => {
-        if (err) action(err.message);
-        else if (result.length <= 0) action("Email chưa đăng kí tài khoản");
+        if (err)
+          action({
+            code: 1,
+            data: err.message,
+          });
+        else if (result.length <= 0)
+          action({
+            code: 1,
+            data: "Email chưa đăng kí tài khoản",
+          });
         else {
           const password = result[0].password;
           const message = JSON.stringify({
@@ -104,11 +148,14 @@ class AuthService {
             Mật khẩu của bạn là ${bcrypt.getRounds(password)}}`,
           });
           await sender("send_email", "forgot-password", message);
-          action("I send your password to your email");
+          action({
+            code: 0,
+            data: "I send your password to your email",
+          });
         }
       });
     } catch (error) {
-      action(error.message);
+      action({ code: 1, data: error.message });
     }
   }
 

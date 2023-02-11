@@ -15,9 +15,10 @@
 //   UNIQUE(email)
 // );
 
-import { createReducer } from "@reduxjs/toolkit";
+import UserType from "@/types/user.type";
+import { createAction, createReducer } from "@reduxjs/toolkit";
 
-const initialstate = {
+const initialstate: Partial<UserType> = {
   id: null,
   email: null,
   fullName: null,
@@ -30,28 +31,49 @@ const initialstate = {
   province: null,
   role: null,
 };
+// {
+//   login: (_, action) => {
+//     return action.payload;
+//   },
+//   logout: () => {
+//     return {
+//       id: null,
+//       email: null,
+//       fullName: null,
+//       phoneNumber: null,
+//       birthday: null,
+//       avatar: null,
+//       street: null,
+//       ward: null,
+//       district: null,
+//       province: null,
+//       role: null,
+//     };
+//   },
+// }
 
-const userReducer = createReducer(initialstate, {
-  login: (_, action) => {
-    console.log("login");
-    return action.payload;
-  },
-  logout: (_, state) => {
-    console.log("logout");
-    return {
-      id: null,
-      email: null,
-      fullName: null,
-      phoneNumber: null,
-      birthday: null,
-      avatar: null,
-      street: null,
-      ward: null,
-      district: null,
-      province: null,
-      role: null,
-    };
-  },
+const login = createAction<UserType>("user/login");
+const logout = createAction("user/logout");
+const userReducer = createReducer(initialstate, (builder) => {
+  builder
+    .addCase(login, (_, action) => {
+      return action.payload;
+    })
+    .addCase(logout, (_, __) => {
+      return {
+        id: null,
+        email: null,
+        fullName: null,
+        phoneNumber: null,
+        birthday: null,
+        avatar: null,
+        street: null,
+        ward: null,
+        district: null,
+        province: null,
+        role: null,
+      };
+    });
 });
 
 export default userReducer;
