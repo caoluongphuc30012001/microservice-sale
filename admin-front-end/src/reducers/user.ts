@@ -77,3 +77,4 @@ const userReducer = createReducer(initialstate, (builder) => {
 });
 
 export default userReducer;
+export { login, logout };

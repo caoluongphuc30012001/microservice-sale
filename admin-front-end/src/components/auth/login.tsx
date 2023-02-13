@@ -5,16 +5,40 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import openNotification from "@/utils/notification";
 import { CloseCircleOutlined } from "@ant-design/icons";
-import { login } from "@/actions/user";
 import token from "@/utils/token";
+import { login } from "@/reducers/user";
 
 type TypeValueForm = {
   email: string;
   password: string;
 };
 
+type DataLoginType = {
+  accessToken: string;
+  refreshToken: string;
+};
+
 const LoginSection: React.FC = () => {
   const dispatch = useDispatch();
+  //function to get own information
+  const getOwnInformation = async () => {
+    const urlSale = process.env.BACKEND_AUTH_URL || "http://localhost:4000";
+    const result = await axios.get(
+      urlSale + "/v1/api/user/get-own-information"
+    );
+    if (result.data.code == 201) {
+      openNotification("Error", result.data.data, <CloseCircleOutlined />);
+    } else {
+      dispatch(login(result.data.data));
+    }
+  };
+
+  //function set token when success login
+  const setTokenLogin = ({ accessToken, refreshToken }: DataLoginType) => {
+    token.setAccessToken(accessToken);
+    token.setRefreshToken(refreshToken);
+  };
+  //function to conduct form when submit
   const onFinish = async ({ email, password }: TypeValueForm) => {
     try {
       const urlAuth = process.env.BACKEND_AUTH_URL || "http://localhost:3000";
@@ -23,13 +47,8 @@ const LoginSection: React.FC = () => {
         password,
       });
       if (result.data.data.accessToken) {
-        token.setAccessToken(result.data.data.accessToken);
-        token.setRefreshToken(result.data.data.refreshToken);
-        const urlSale = process.env.BACKEND_AUTH_URL || "http://localhost:4000";
-        const result1 = await axios.get(
-          urlSale + "/v1/api/user/get-own-information"
-        );
-        console.log(result1.data);
+        setTokenLogin(result.data.data);
+        await getOwnInformation();
       } else {
         openNotification("Error", result.data.data, <CloseCircleOutlined />);
       }

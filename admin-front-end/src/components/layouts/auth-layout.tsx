@@ -9,10 +9,10 @@ import { login } from "@/reducers/user";
 import { useRouter } from "next/router";
 const { Header, Content } = Layout;
 
-type MainLayoutProps = {
+type AuthLayoutProps = {
   children: React.ReactNode;
 };
-function MainLayout({ children }: MainLayoutProps) {
+function AuthLayout({ children }: AuthLayoutProps) {
   const { email } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
   const router = useRouter();
@@ -21,16 +21,15 @@ function MainLayout({ children }: MainLayoutProps) {
     const result = await axios.get(
       urlSale + "/v1/api/user/get-own-information"
     );
-    if (result.data.code == 201) {
-      router.push("/auth/login");
-    } else {
+    if (result.data.code !== 201) {
       dispatch(login(result.data.data));
     }
   };
   useEffect(() => {
     if (!email) {
-      console.log(email);
       getOwnInformation();
+    } else {
+      router.push("/");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [email]);
@@ -40,10 +39,10 @@ function MainLayout({ children }: MainLayoutProps) {
         <MenuCustom />
       </Header>
       <Content className={style["layout-content-container"]}>
-        {email && children}
+        {children}
       </Content>
     </Layout>
   );
 }
 
-export default MainLayout;
+export default AuthLayout;

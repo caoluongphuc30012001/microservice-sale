@@ -1,12 +1,12 @@
 import LoginSection from "@/components/auth/login";
-import MainLayout from "@/components/layouts/main-layout";
+import AuthLayout from "@/components/layouts/auth-layout";
 import React from "react";
 
 function Login() {
   return (
-    <MainLayout>
+    <AuthLayout>
       <LoginSection />
-    </MainLayout>
+    </AuthLayout>
   );
 }
 

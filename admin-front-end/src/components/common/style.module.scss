@@ -1,0 +1,19 @@
+.menu-container{
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+.menu-main{
+  width: 100%;
+}
+.group-button{
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  .menu-button{
+    margin:0 5px;
+    text-decoration: underline;
+    font-style: italic;
+  }
+}
