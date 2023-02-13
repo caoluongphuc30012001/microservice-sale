@@ -3,8 +3,39 @@
   align-items: center;
   flex-direction: column;
   margin-top: 80px;
+  margin-left: 20px;
 }
 .avatar-group-box{
   display: flex;
   align-items: center;
+}
+
+.content-box{
+  border-radius: 10px;
+  border:1px solid gray;
+  margin-top: 20px;
+
+  .text-title{
+    font-weight: 550;
+    margin-right: 5px;
+  }
+  .text-content{
+    font-style: italic;
+  }
+  .title-row{
+    border-bottom: 1px solid gray;
+    padding:0 10px;
+    
+    .title{
+      margin-bottom: 0px;
+      
+    }
+  }
+  .row-content{
+    padding:5px 10px;
+  }
+}
+
+.profile-page-container{
+  margin-top: 50px;
 }

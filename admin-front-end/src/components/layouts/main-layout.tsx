@@ -13,7 +13,7 @@ type MainLayoutProps = {
   children: React.ReactNode;
 };
 function MainLayout({ children }: MainLayoutProps) {
-  const { email } = useSelector((state: RootState) => state.user);
+  const { fullName } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
   const router = useRouter();
   const getOwnInformation = async () => {
@@ -28,19 +28,19 @@ function MainLayout({ children }: MainLayoutProps) {
     }
   };
   useEffect(() => {
-    if (!email) {
-      console.log(email);
+    if (!fullName) {
+      console.log(fullName);
       getOwnInformation();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [email]);
+  }, [fullName]);
   return (
     <Layout>
       <Header className={style["layout-header-container"]}>
         <MenuCustom />
       </Header>
       <Content className={style["layout-content-container"]}>
-        {email && children}
+        {fullName && children}
       </Content>
     </Layout>
   );

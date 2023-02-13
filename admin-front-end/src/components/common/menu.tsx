@@ -11,7 +11,7 @@ import logo from "/public/logo/logo.png";
 
 function MenuCustom() {
   const dispatch = useDispatch();
-  const { avatar, email } = useSelector((state: RootState) => state.user);
+  const { avatar, fullName } = useSelector((state: RootState) => state.user);
   const listItem = useRef<any[]>([
     {
       label: "Sản phẩm",
@@ -53,7 +53,7 @@ function MenuCustom() {
       key: 1,
     },
   ];
-  return email ? (
+  return fullName ? (
     <div className={style["menu-container"]}>
       <Menu
         theme="light"

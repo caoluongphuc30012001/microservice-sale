@@ -10,6 +10,7 @@ class UserService {
         else {
           const user = result.pop();
           delete user.password;
+          delete user.email;
           action(user);
         }
       });

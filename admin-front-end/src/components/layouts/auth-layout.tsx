@@ -13,7 +13,7 @@ type AuthLayoutProps = {
   children: React.ReactNode;
 };
 function AuthLayout({ children }: AuthLayoutProps) {
-  const { email } = useSelector((state: RootState) => state.user);
+  const { fullName } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
   const router = useRouter();
   const getOwnInformation = async () => {
@@ -26,13 +26,13 @@ function AuthLayout({ children }: AuthLayoutProps) {
     }
   };
   useEffect(() => {
-    if (!email) {
+    if (!fullName) {
       getOwnInformation();
     } else {
       router.push("/");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [email]);
+  }, [fullName]);
   return (
     <Layout>
       <Header className={style["layout-header-container"]}>

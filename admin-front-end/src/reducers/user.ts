@@ -18,9 +18,8 @@
 import UserType from "@/types/user.type";
 import { createAction, createReducer } from "@reduxjs/toolkit";
 
-const initialstate: Partial<UserType> = {
+const initialState: Partial<UserType> = {
   id: null,
-  email: null,
   fullName: null,
   phoneNumber: null,
   birthday: null,
@@ -54,7 +53,7 @@ const initialstate: Partial<UserType> = {
 
 const login = createAction<UserType>("user/login");
 const logout = createAction("user/logout");
-const userReducer = createReducer(initialstate, (builder) => {
+const userReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(login, (_, action) => {
       return action.payload;
