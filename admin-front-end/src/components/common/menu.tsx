@@ -15,18 +15,18 @@ function MenuCustom() {
   const listItem = useRef<any[]>([
     {
       label: "Sản phẩm",
-      href: "/products",
+      href: "/dashboard/product",
       id: 0,
     },
-    { label: "Người dùng", href: "/users", id: 1 },
+    { label: "Người dùng", href: "/dashboard/user", id: 1 },
     {
       label: "Đơn đặt hàng",
-      href: "/orders",
+      href: "/dashboard/order",
       id: 2,
     },
     {
       label: "Hóa đơn",
-      href: "/payments",
+      href: "/dashboard/payment",
       id: 3,
     },
   ]);

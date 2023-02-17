@@ -29,7 +29,6 @@ function MainLayout({ children }: MainLayoutProps) {
   };
   useEffect(() => {
     if (!fullName) {
-      console.log(fullName);
       getOwnInformation();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

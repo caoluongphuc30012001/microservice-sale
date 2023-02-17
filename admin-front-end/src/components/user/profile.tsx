@@ -15,11 +15,11 @@ function ProfileSection() {
 
   const onClose = () => {
     setOpen(false);
-  }
+  };
 
   const onOpen = () => {
-    setOpen(true)
-  }
+    setOpen(true);
+  };
   return (
     <div className={style["profile-page-container"]}>
       <div className={style["avatar-group-box"]}>
@@ -31,9 +31,7 @@ function ProfileSection() {
         />
         <div className={style["btn-group"]}>
           <Title level={2}>{user.fullName}</Title>
-          <Button
-            onClick={onOpen}
-          >
+          <Button onClick={onOpen}>
             <EditOutlined />
             Chỉnh sửa trang cá nhân
           </Button>
@@ -55,13 +53,13 @@ function ProfileSection() {
         <Row className={style["row-content"]}>
           <Text className={style["text-title"]}>Quận / Huyện:</Text>
           <Text className={style["text-content"]}>
-            {user.province || "Chưa điền thông tin"}
+            {user.district || "Chưa điền thông tin"}
           </Text>
         </Row>
         <Row className={style["row-content"]}>
           <Text className={style["text-title"]}>Xã / Phường:</Text>
           <Text className={style["text-content"]}>
-            {user.province || "Chưa điền thông tin"}
+            {user.ward || "Chưa điền thông tin"}
           </Text>
         </Row>
         <Row className={style["row-content"]}>
@@ -87,11 +85,11 @@ function ProfileSection() {
         <Row className={style["row-content"]}>
           <Text className={style["text-title"]}>Ngày sinh:</Text>
           <Text className={style["text-content"]}>
-            {user.birthday?.toDateString() || "Chưa điền thông tin"}
+            {user.birthday || "Chưa điền thông tin"}
           </Text>
         </Row>
       </div>
-      <DrawerUpdateInformation open={open} onClose={onClose}/>
+      <DrawerUpdateInformation open={open} onClose={onClose} user={user} />
     </div>
   );
 }

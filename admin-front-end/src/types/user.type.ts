@@ -2,7 +2,7 @@ type UserType = {
   id: string | null;
   email: string | null;
   phoneNumber: string | null;
-  birthday: Date | null;
+  birthday: string;
   avatar: string | null;
   street: string | null;
   ward: string | null;

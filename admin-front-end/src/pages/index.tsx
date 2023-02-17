@@ -6,9 +6,7 @@ import Image from "next/image";
 export default function Home() {
   return (
     <MainLayout>
-      <div className={style["home-page"]}>
-        <Image src={background} alt="" className={style["background"]} />
-      </div>
+      <div className={style["home-page"]}></div>
     </MainLayout>
   );
 }
