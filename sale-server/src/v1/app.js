@@ -3,6 +3,7 @@ const brandRouter = require("./routers/brand.route");
 const categoryRouter = require("./routers/category.route");
 const productRouter = require("./routers/product.route");
 const userRouter = require("./routers/user.route");
+const imageRouter = require("./routers/image.route");
 require("dotenv").config();
 const PORT = process.env.PORT || 4000;
 
@@ -72,6 +73,9 @@ app.use("/v1/api/product", productRouter);
 
 // app use user router
 app.use("/v1/api/user", userRouter);
+
+//app use iamge router
+app.use("/v1/api/image", imageRouter);
 
 app.use("/", (req, res) => {
   res.send("Welcome to my application");

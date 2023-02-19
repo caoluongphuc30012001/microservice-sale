@@ -1,7 +1,16 @@
 import UserType from "@/types/user.type";
-import { Button, Col, DatePicker, Drawer, Form, Input, Row, Space } from "antd";
-import React, { useRef } from "react";
-import { Dayjs } from "dayjs";
+import {
+  Avatar,
+  Button,
+  Col,
+  DatePicker,
+  Drawer,
+  Form,
+  Input,
+  Row,
+  Space,
+} from "antd";
+import React, { useRef, useState } from "react";
 import axios from "axios";
 import type { FormInstance } from "antd/es/form";
 import { useDispatch } from "react-redux";
@@ -9,11 +18,19 @@ import { login } from "@/reducers/user";
 import { CloseCircleOutlined, CheckCircleOutlined } from "@ant-design/icons";
 import openNotification from "@/utils/notification";
 import { Exception } from "sass";
+import { Upload } from "antd";
+import { UserOutlined } from "@ant-design/icons";
+import dayjs from "dayjs";
 
 type DrawerUpdateInformationProps = {
   open: boolean;
   onClose: () => void;
   user: Partial<UserType>;
+};
+
+type UploadResponseType = {
+  public_id: string;
+  url: string;
 };
 
 function DrawerUpdateInformation({
@@ -22,6 +39,35 @@ function DrawerUpdateInformation({
   user,
 }: DrawerUpdateInformationProps) {
   const dispatch = useDispatch();
+  const [avatarURL, setAvatarURL] = useState<string>();
+  const [publicId, setPublicId] = useState<string>();
+
+  //function delete image upload on server
+  const onDelete = async () => {
+    try {
+      const url = "http://localhost:4000/v1/api/image";
+      if (publicId) {
+        await axios.delete(url + "/delete-image", {
+          data: {
+            public_id: publicId,
+          },
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // function upload avatar
+  const onUpload = async (response: UploadResponseType) => {
+    try {
+      await onDelete();
+      setAvatarURL(response.url);
+      setPublicId(response.public_id);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const onSubmit = async (value: any) => {
     try {
       const saleURL = "http://localhost:4000";
@@ -29,13 +75,12 @@ function DrawerUpdateInformation({
         fullName: value.fullName,
         phoneNumber: value.phoneNumber,
         birthday: value.birthday?.format("YYYY-MM-DD"),
-        avatar: value.avatar,
+        avatar: avatarURL || user.avatar,
         province: value.province,
         district: value.district,
         ward: value.ward,
         street: value.street,
       };
-      console.log(userPayload);
       const result = await axios.put(
         saleURL + "/v1/api/user/update-own-information",
         userPayload
@@ -55,6 +100,7 @@ function DrawerUpdateInformation({
       );
     }
   };
+
   const formRef = useRef<FormInstance>(null);
   return (
     <Drawer
@@ -64,6 +110,34 @@ function DrawerUpdateInformation({
       open={open}
       bodyStyle={{ paddingBottom: 80 }}
     >
+      <Row
+        justify="center"
+        style={{
+          marginBottom: "20px",
+        }}
+      >
+        <Col>
+          <Upload
+            maxCount={1}
+            onChange={({ file }) => {
+              if (file.response) {
+                onUpload(file.response.data);
+              }
+            }}
+            action="http://localhost:4000/v1/api/image/upload-image"
+            showUploadList={false}
+          >
+            <Avatar
+              style={{
+                cursor: "pointer",
+              }}
+              src={avatarURL || user.avatar}
+              size={100}
+              icon={<UserOutlined />}
+            />
+          </Upload>
+        </Col>
+      </Row>
       <Form
         layout="vertical"
         hideRequiredMark
@@ -104,9 +178,7 @@ function DrawerUpdateInformation({
               label="Tỉnh / Thành phố"
               initialValue={user.province}
             >
-              <Input
-              // defaultValue={user.province || ""}
-              />
+              <Input />
             </Form.Item>
           </Col>
           <Col span={12}>
@@ -144,7 +216,7 @@ function DrawerUpdateInformation({
             <Form.Item
               name="birthday"
               label="Ngày tháng năm sinh"
-              // initialValue={user.birthday}
+              initialValue={dayjs(user.birthday)}
             >
               <DatePicker style={{ width: "100%" }} />
             </Form.Item>

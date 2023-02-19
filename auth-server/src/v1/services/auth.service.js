@@ -167,6 +167,7 @@ class AuthService {
         id: payload.id,
         email: payload.email,
         role: payload.role,
+        isActive: payload.isActive,
       };
       const accessToken = jsonwebtoken.sign(
         payloadToken,
@@ -200,10 +201,7 @@ class AuthService {
 
       const tokenVerify = await jsonwebtoken.sign(
         payloadToken,
-        process.env.JWT_TOKEN_VERIFY_SECRET,
-        {
-          expiresIn: "10m",
-        }
+        process.env.JWT_TOKEN_VERIFY_SECRET
       );
       return tokenVerify;
     } catch (error) {

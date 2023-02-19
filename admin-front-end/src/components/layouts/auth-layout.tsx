@@ -7,6 +7,8 @@ import { RootState } from "@/store";
 import axios from "axios";
 import { login } from "@/reducers/user";
 import { useRouter } from "next/router";
+import openNotification from "@/utils/notification";
+import { CloseCircleOutlined } from "@ant-design/icons";
 const { Header, Content } = Layout;
 
 type AuthLayoutProps = {
@@ -17,12 +19,20 @@ function AuthLayout({ children }: AuthLayoutProps) {
   const dispatch = useDispatch();
   const router = useRouter();
   const getOwnInformation = async () => {
-    const urlSale = process.env.BACKEND_AUTH_URL || "http://localhost:4000";
-    const result = await axios.get(
-      urlSale + "/v1/api/user/get-own-information"
-    );
-    if (result.data.code !== 201) {
-      dispatch(login(result.data.data));
+    try {
+      const urlSale = process.env.BACKEND_AUTH_URL || "http://localhost:4000";
+      const result = await axios.get(
+        urlSale + "/v1/api/user/get-own-information"
+      );
+      if (result.data.code !== 201) {
+        dispatch(login(result.data.data));
+      }
+    } catch (error) {
+      openNotification(
+        "Error",
+        (error as any).response.data.message,
+        <CloseCircleOutlined />
+      );
     }
   };
   useEffect(() => {

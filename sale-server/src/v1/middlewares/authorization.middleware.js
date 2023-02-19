@@ -1,7 +1,6 @@
 const authorizationAdmin = async (req, res, next) => {
   try {
     const user = req.body.user;
-    console.log(user);
     if (user.role === "admin") next();
     else
       res.status(403).send({

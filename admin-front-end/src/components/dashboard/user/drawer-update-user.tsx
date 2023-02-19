@@ -8,6 +8,7 @@ import {
   Input,
   Modal,
   Row,
+  Select,
   Space,
 } from "antd";
 import React, { useRef, useState } from "react";
@@ -16,6 +17,7 @@ import type { FormInstance } from "antd/es/form";
 import { CloseCircleOutlined, CheckCircleOutlined } from "@ant-design/icons";
 import openNotification from "@/utils/notification";
 import { Exception } from "sass";
+import dayjs from "dayjs";
 
 type DrawerUpdateUserProps = {
   open: boolean;
@@ -62,6 +64,7 @@ function DrawerUpdateUser({
         ward: value.ward,
         street: value.street,
         id: user.id,
+        role: value.role,
       };
       const result = await axios.put(saleURL + "/v1/api/user", userPayload);
       if (result.data.code == 0) {
@@ -171,8 +174,26 @@ function DrawerUpdateUser({
           </Row>
           <Row gutter={16}>
             <Col span={12}>
-              <Form.Item name="birthday" label="Ngày tháng năm sinh">
+              <Form.Item
+                name="birthday"
+                label="Ngày tháng năm sinh"
+                initialValue={user.birthday ? dayjs(user.birthday) : null}
+              >
                 <DatePicker style={{ width: "100%" }} />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                name="role"
+                label="Vai trò"
+                initialValue={{
+                  value: user.role,
+                }}
+              >
+                <Select placeholder="Please select an owner">
+                  <Select.Option value="admin">admin</Select.Option>
+                  <Select.Option value="guest">guest</Select.Option>
+                </Select>
               </Form.Item>
             </Col>
           </Row>

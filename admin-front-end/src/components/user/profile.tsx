@@ -5,6 +5,7 @@ import style from "./style.module.scss";
 import { Avatar, Button, Row, Space, Typography } from "antd";
 import { UserOutlined, EditOutlined } from "@ant-design/icons";
 import DrawerUpdateInformation from "./drawer-update-information";
+import dayjs from "dayjs";
 
 const { Title, Text } = Typography;
 
@@ -85,7 +86,7 @@ function ProfileSection() {
         <Row className={style["row-content"]}>
           <Text className={style["text-title"]}>Ngày sinh:</Text>
           <Text className={style["text-content"]}>
-            {user.birthday || "Chưa điền thông tin"}
+            {dayjs(user.birthday).format("DD-MM-YYYY") || "Chưa điền thông tin"}
           </Text>
         </Row>
       </div>

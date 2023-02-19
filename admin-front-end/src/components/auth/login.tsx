@@ -7,6 +7,7 @@ import openNotification from "@/utils/notification";
 import { CloseCircleOutlined } from "@ant-design/icons";
 import token from "@/utils/token";
 import { login } from "@/reducers/user";
+import { Exception } from "sass";
 
 type TypeValueForm = {
   email: string;
@@ -22,14 +23,22 @@ const LoginSection: React.FC = () => {
   const dispatch = useDispatch();
   //function to get own information
   const getOwnInformation = async () => {
-    const urlSale = process.env.BACKEND_AUTH_URL || "http://localhost:4000";
-    const result = await axios.get(
-      urlSale + "/v1/api/user/get-own-information"
-    );
-    if (result.data.code == 201) {
-      openNotification("Error", result.data.data, <CloseCircleOutlined />);
-    } else {
-      dispatch(login(result.data.data));
+    try {
+      const urlSale = process.env.BACKEND_AUTH_URL || "http://localhost:4000";
+      const result = await axios.get(
+        urlSale + "/v1/api/user/get-own-information"
+      );
+      if (result.data.code === 201) {
+        openNotification("Error", result.data.data, <CloseCircleOutlined />);
+      } else {
+        dispatch(login(result.data.data));
+      }
+    } catch (error) {
+      openNotification(
+        "Error",
+        (error as any).response.data.message,
+        <CloseCircleOutlined />
+      );
     }
   };
 

@@ -92,7 +92,8 @@ function UserSection() {
     },
     {
       title: "Tình trạng",
-      render: (value) => (value === true ? "Đang hoạt động" : "Chờ xác thực"),
+      dataIndex: "isActive",
+      render: (value) => (value ? "Đang hoạt động" : "Chờ xác thực"),
       width: "10%",
     },
   ];
@@ -137,6 +138,9 @@ function UserSection() {
         style={{
           width: "90%",
           marginTop: "100px",
+        }}
+        rowKey={(record) => {
+          return record.id as string;
         }}
       />
       {user && (

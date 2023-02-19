@@ -9,8 +9,15 @@ const authToken = async (req, res, next) => {
       (error, result) => {
         if (error) res.status(401).send(error);
         else {
-          req.body.user = result;
-          next();
+          if (result.isActive) {
+            req.body.user = result;
+            next();
+          } else {
+            res.status(403).send({
+              code: 1,
+              message: "Tài khoản chưa được xác thực",
+            });
+          }
         }
       }
     );
