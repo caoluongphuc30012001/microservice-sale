@@ -4,6 +4,8 @@ const categoryRouter = require("./routers/category.route");
 const productRouter = require("./routers/product.route");
 const userRouter = require("./routers/user.route");
 const imageRouter = require("./routers/image.route");
+const helmet = require("helmet");
+const compression = require("compression");
 require("dotenv").config();
 const PORT = process.env.PORT || 4000;
 
@@ -11,6 +13,7 @@ const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUI = require("swagger-ui-express");
 
 const app = express();
+//init middlewares
 
 const cors = require("cors");
 app.use(
@@ -19,6 +22,10 @@ app.use(
     method: "GET,PUT,PATCH,POST,DELETE",
   })
 );
+
+app.use(helmet());
+
+app.use(compression());
 
 app.use(express.json());
 
