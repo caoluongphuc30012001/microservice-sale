@@ -4,14 +4,21 @@ require("dotenv").config();
 const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUI = require("swagger-ui-express");
 const cors = require("cors");
+const helmet = require("helmet");
+const compression = require("compression");
 
 const app = express();
+//init middlewares
 app.use(
   cors({
     origin: "*",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   })
 );
+
+app.use(helmet());
+
+app.use(compression());
 
 app.use(express.json());
 
