@@ -89,6 +89,7 @@ function DrawerUpdateUser({
         data: { id: user.id },
       });
       openNotification("Success", result.data.data, <CheckCircleOutlined />);
+      getListUser();
       onClose();
     } catch (error) {
       openNotification(
@@ -123,7 +124,7 @@ function DrawerUpdateUser({
                 rules={[{ required: true, message: "Không được để trống tên" }]}
                 initialValue={user.fullName}
               >
-                <Input placeholder="Please enter user name" />
+                <Input />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -183,14 +184,8 @@ function DrawerUpdateUser({
               </Form.Item>
             </Col>
             <Col span={12}>
-              <Form.Item
-                name="role"
-                label="Vai trò"
-                initialValue={{
-                  value: user.role,
-                }}
-              >
-                <Select placeholder="Please select an owner">
+              <Form.Item name="role" label="Vai trò" initialValue={user.role}>
+                <Select placeholder="Vai trò">
                   <Select.Option value="admin">admin</Select.Option>
                   <Select.Option value="guest">guest</Select.Option>
                 </Select>

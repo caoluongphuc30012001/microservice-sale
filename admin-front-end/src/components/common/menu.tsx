@@ -20,13 +20,13 @@ function MenuCustom() {
     },
     { label: "Người dùng", href: "/dashboard/user", id: 1 },
     {
-      label: "Đơn đặt hàng",
-      href: "/dashboard/order",
+      label: "Danh mục",
+      href: "/dashboard/category",
       id: 2,
     },
     {
-      label: "Hóa đơn",
-      href: "/dashboard/payment",
+      label: "Hãng",
+      href: "/dashboard/brand",
       id: 3,
     },
   ]);

@@ -15,7 +15,7 @@ class CategoryService {
 
   async getAllCategory(action) {
     try {
-      const getAllBrandQuery = `select id,name from Category;`;
+      const getAllBrandQuery = `select id,name,description from Category;`;
       db.query(getAllBrandQuery, (err, result) => {
         if (err) action(err.message);
         else action(result);
@@ -39,6 +39,7 @@ class CategoryService {
 
   async updateCategory(payload, action) {
     try {
+      delete payload.user;
       const updateCategoryQuery = `update Category set ? where id = ?;`;
       db.query(updateCategoryQuery, [payload, payload.id], (err) => {
         if (err) action(err.message);

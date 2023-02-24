@@ -34,9 +34,9 @@ class ProductService {
 
   async deleteProduct(payload, action = () => {}) {
     try {
-      const { id } = payload;
+      const { id, productId } = payload;
       const deleteProductQuery = `delete from Product where id = ?`;
-      productDetailService.deleteProductDetail({ id: id });
+      productDetailService.deleteProductDetail({ productId: productId });
       db.query(deleteProductQuery, [id], (err, result) => {
         if (err) action(err.message);
         else action("Xóa sản phẩm thành công");

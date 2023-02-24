@@ -23,6 +23,7 @@ class ProductDetailService {
   async deleteProductDetail(payload, action = () => {}) {
     try {
       const id = payload.productId;
+      console.log(id);
       const deleteProductDetailQuery = `delete from ProductDetail where productId=?`;
       db.query(deleteProductDetailQuery, [id], (err) => {
         if (err) action(err.message);

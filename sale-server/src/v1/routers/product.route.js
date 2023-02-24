@@ -120,7 +120,7 @@ router.post(
 
 router.put("/", authToken, authorizationAdmin, productController.updateProduct);
 
-router.get("/", productController.getAllProduct);
+router.get("/", authToken, productController.getAllProduct);
 
 /**
  *  @swagger
@@ -147,7 +147,7 @@ router.get("/", productController.getAllProduct);
  *                    description: Thông tin back end trả về
  */
 
-router.get("/:id", productController.findProductById);
+router.get("/:id", authToken, productController.findProductById);
 
 /**
  *  @swagger

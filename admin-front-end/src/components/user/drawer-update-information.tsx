@@ -18,19 +18,14 @@ import { login } from "@/reducers/user";
 import { CloseCircleOutlined, CheckCircleOutlined } from "@ant-design/icons";
 import openNotification from "@/utils/notification";
 import { Exception } from "sass";
-import { Upload } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
+import UploadFileCustom from "../common/upload-file";
 
 type DrawerUpdateInformationProps = {
   open: boolean;
   onClose: () => void;
   user: Partial<UserType>;
-};
-
-type UploadResponseType = {
-  public_id: string;
-  url: string;
 };
 
 function DrawerUpdateInformation({
@@ -42,32 +37,6 @@ function DrawerUpdateInformation({
   const [avatarURL, setAvatarURL] = useState<string>();
   const [publicId, setPublicId] = useState<string>();
 
-  //function delete image upload on server
-  const onDelete = async () => {
-    try {
-      const url = "http://localhost:4000/v1/api/image";
-      if (publicId) {
-        await axios.delete(url + "/delete-image", {
-          data: {
-            public_id: publicId,
-          },
-        });
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  // function upload avatar
-  const onUpload = async (response: UploadResponseType) => {
-    try {
-      await onDelete();
-      setAvatarURL(response.url);
-      setPublicId(response.public_id);
-    } catch (error) {
-      console.log(error);
-    }
-  };
   const onSubmit = async (value: any) => {
     try {
       const saleURL = "http://localhost:4000";
@@ -117,14 +86,17 @@ function DrawerUpdateInformation({
         }}
       >
         <Col>
-          <Upload
-            maxCount={1}
-            onChange={({ file }) => {
-              if (file.response) {
-                onUpload(file.response.data);
-              }
+          <UploadFileCustom
+            setUrl={(result) => {
+              setAvatarURL(result);
             }}
-            action="http://localhost:4000/v1/api/image/upload-image"
+            urlAction="http://localhost:4000/v1/api/image/upload-image"
+            publicProps={{
+              publicId: publicId,
+              setPublicId: (id) => {
+                setPublicId(id);
+              },
+            }}
             showUploadList={false}
           >
             <Avatar
@@ -135,7 +107,7 @@ function DrawerUpdateInformation({
               size={100}
               icon={<UserOutlined />}
             />
-          </Upload>
+          </UploadFileCustom>
         </Col>
       </Row>
       <Form
