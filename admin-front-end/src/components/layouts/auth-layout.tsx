@@ -39,7 +39,7 @@ function AuthLayout({ children }: AuthLayoutProps) {
     if (!fullName) {
       getOwnInformation();
     } else {
-      router.push("/");
+      router.push("/dashboard/product");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fullName]);

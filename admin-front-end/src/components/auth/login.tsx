@@ -7,7 +7,6 @@ import openNotification from "@/utils/notification";
 import { CloseCircleOutlined } from "@ant-design/icons";
 import token from "@/utils/token";
 import { login } from "@/reducers/user";
-import { Exception } from "sass";
 
 type TypeValueForm = {
   email: string;

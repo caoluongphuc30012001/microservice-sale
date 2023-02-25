@@ -3,7 +3,7 @@ const db = require("../databases/mysql.init.js");
 class BrandService {
   async getAllBrand(action) {
     try {
-      const getAllBrandQuery = `select id, name from Brand;`;
+      const getAllBrandQuery = `select * from Brand;`;
       db.query(getAllBrandQuery, (err, result) => {
         if (err) action(err.message);
         else action(result);
@@ -32,6 +32,7 @@ class BrandService {
 
   async updateBrand(payload, action) {
     try {
+      delete payload.user;
       const createBrandQuery = `update Brand set ? where id = ?`;
       db.query(createBrandQuery, [payload, payload.id], (err) => {
         if (err) action(err.message);

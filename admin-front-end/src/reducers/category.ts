@@ -1,3 +1,4 @@
+import CategoryType from "@/types/category.type";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState: CategoryType[] = [];

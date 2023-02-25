@@ -5,17 +5,17 @@ import { Exception } from "sass";
 import { CloseCircleOutlined, CheckCircleOutlined } from "@ant-design/icons";
 import axios from "axios";
 
-type ModalCreateCategoryProps = {
+type ModalCreateBrandProps = {
   open: boolean;
   onClose: () => void;
-  getListcategory: () => void;
+  getListBrand: () => void;
 };
 
-function ModalCreateCategory({
+function ModalCreateBrand({
   open,
   onClose,
-  getListcategory,
-}: ModalCreateCategoryProps) {
+  getListBrand,
+}: ModalCreateBrandProps) {
   const formRef = useRef<FormInstance>(null);
   const onSubmit = async () => {
     try {
@@ -23,10 +23,11 @@ function ModalCreateCategory({
       const categoryPayload = {
         name: formRef.current?.getFieldValue("name"),
         description: formRef.current?.getFieldValue("description"),
+        country: formRef.current?.getFieldValue("country"),
       };
 
       const result = await axios.post(
-        saleURL + "/v1/api/category",
+        saleURL + "/v1/api/brand",
         categoryPayload
       );
       if (result.data.code == 0) {
@@ -34,7 +35,7 @@ function ModalCreateCategory({
       } else
         openNotification("Error", result.data.data, <CloseCircleOutlined />);
       formRef.current?.resetFields();
-      getListcategory();
+      getListBrand();
       onClose();
     } catch (error) {
       openNotification(
@@ -79,6 +80,19 @@ function ModalCreateCategory({
         </Row>
         <Row gutter={16}>
           <Col span={24}>
+            <Form.Item
+              name="country"
+              label="Quốc gia"
+              rules={[
+                { required: true, message: "Không được để trống quốc gia" },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row gutter={16}>
+          <Col span={24}>
             <Form.Item name="description" label="Mô tả">
               <Input />
             </Form.Item>
@@ -89,4 +103,4 @@ function ModalCreateCategory({
   );
 }
 
-export default ModalCreateCategory;
+export default ModalCreateBrand;

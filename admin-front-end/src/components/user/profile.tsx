@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { RootState } from "@/store";
 import { useSelector } from "react-redux";
 import style from "./style.module.scss";
-import { Avatar, Button, Row, Space, Typography } from "antd";
+import { Avatar, Button, Row, Typography } from "antd";
 import { UserOutlined, EditOutlined } from "@ant-design/icons";
 import DrawerUpdateInformation from "./drawer-update-information";
 import dayjs from "dayjs";

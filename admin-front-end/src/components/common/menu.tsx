@@ -1,4 +1,4 @@
-import { Avatar, Dropdown, Menu, MenuProps, Space } from "antd";
+import { Avatar, Dropdown, Menu, MenuProps } from "antd";
 import React, { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -8,6 +8,7 @@ import { logout } from "@/reducers/user";
 import { RootState } from "@/store";
 import { UserOutlined } from "@ant-design/icons";
 import logo from "/public/logo/logo.png";
+import { useRouter } from "next/router";
 
 function MenuCustom() {
   const dispatch = useDispatch();
@@ -30,13 +31,14 @@ function MenuCustom() {
       id: 3,
     },
   ]);
+  const router = useRouter();
 
   const clearToken = () => {
     window.localStorage.clear();
   };
   const subMenu: MenuProps["items"] = [
     {
-      label: <a href="/user/profile">Profile</a>,
+      label: <Link href="/user/profile">Profile</Link>,
       key: 0,
     },
     {
@@ -61,20 +63,22 @@ function MenuCustom() {
         defaultSelectedKeys={["0"]}
         items={listItem.current.map((item) => {
           return {
-            key: item.id,
+            key: item.href,
             label: <Link href={item.href}>{item.label}</Link>,
           };
         })}
         className={style["menu-main"]}
+        activeKey={router.pathname}
       />
       <Dropdown menu={{ items: subMenu }} trigger={["click"]}>
-        <a
+        <Link
+          href=""
           onClick={(e) => {
             e.preventDefault();
           }}
         >
           <Avatar src={avatar} icon={<UserOutlined />} />
-        </a>
+        </Link>
       </Dropdown>
     </div>
   ) : (

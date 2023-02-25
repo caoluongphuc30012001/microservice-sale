@@ -5,20 +5,20 @@ import React, { useEffect, useState } from "react";
 import { CloseCircleOutlined, SearchOutlined } from "@ant-design/icons";
 import { Button, Col, Input, Row, Table, Typography } from "antd";
 import { Exception } from "sass";
-import CategoryType from "@/types/category.type";
-import ModalUpdateCategory from "./modal-update-category";
-import ModalCreateCategory from "./modal-create-category";
+import BrandType from "@/types/brand.type";
+import ModalUpdateBrand from "./modal-update-brand";
+import ModalCreateBrand from "./modal-create-brand";
 
 const { Title } = Typography;
 
-function CategorySection() {
-  const [data, setData] = useState<CategoryType[]>([]);
+function BrandSection() {
+  const [data, setData] = useState<BrandType[]>([]);
   const [search, setSearch] = useState<string>("");
-  const [category, setCategory] = useState<CategoryType>();
+  const [brand, setBrand] = useState<BrandType>();
   const [isUpdate, setIsUpdate] = useState(false);
   const [open, setOpen] = useState(false);
-  const onUpdate = (category: CategoryType) => {
-    setCategory(category);
+  const onUpdate = (brand: BrandType) => {
+    setBrand(brand);
     setIsUpdate(true);
     setOpen(true);
   };
@@ -32,12 +32,12 @@ function CategorySection() {
     setOpen(true);
   };
 
-  //get list category
+  //get list brand
 
-  const getListCategory = async (search?: string) => {
+  const getListBrand = async (search?: string) => {
     try {
       const url = "http://localhost:4000";
-      const result = await axios.get(url + "/v1/api/category");
+      const result = await axios.get(url + "/v1/api/brand");
       if (result.status !== 200) {
         openNotification("Error", result.data.message, <CloseCircleOutlined />);
       } else setData(result.data.data);
@@ -52,11 +52,11 @@ function CategorySection() {
 
   //get list user first render
   useEffect(() => {
-    getListCategory();
+    getListBrand();
   }, []);
 
   // define column
-  const columns: ColumnsType<CategoryType> = [
+  const columns: ColumnsType<BrandType> = [
     {
       title: "Tên",
       dataIndex: "name",
@@ -70,14 +70,19 @@ function CategorySection() {
       dataIndex: "description",
       width: "20%",
     },
+    {
+      title: "Quốc gia",
+      dataIndex: "country",
+      width: "10%",
+    },
   ];
 
   //function to handle search
 
   function onSearch(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.code === "Enter") {
-      getListCategory(search);
-    } else if (e.code === "Backspace" && search === "") getListCategory();
+      getListBrand(search);
+    } else if (e.code === "Backspace" && search === "") getListBrand();
   }
   return (
     <>
@@ -139,23 +144,23 @@ function CategorySection() {
           return record.id;
         }}
       />
-      {isUpdate && category && (
-        <ModalUpdateCategory
+      {isUpdate && brand && (
+        <ModalUpdateBrand
           open={open}
           onClose={onCancel}
-          category={category}
-          getListcategory={getListCategory}
+          brand={brand}
+          getListBrand={getListBrand}
         />
       )}
       {!isUpdate && (
-        <ModalCreateCategory
+        <ModalCreateBrand
           open={open}
           onClose={onCancel}
-          getListcategory={getListCategory}
+          getListBrand={getListBrand}
         />
       )}
     </>
   );
 }
 
-export default CategorySection;
+export default BrandSection;

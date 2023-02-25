@@ -23,6 +23,7 @@ import { ProductDetailType, ProductType } from "@/types/product.type";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import UploadFileCustom from "@/components/common/upload-file";
+import CategoryType from "@/types/category.type";
 
 type DrawerCreateProductProps = {
   open: boolean;

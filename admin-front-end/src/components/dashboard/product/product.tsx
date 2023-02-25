@@ -106,6 +106,7 @@ function ProductSection() {
     getListCategory();
     getListBrand();
     getListProduct();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // define column

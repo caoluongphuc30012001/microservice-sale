@@ -58,7 +58,7 @@ const userReducer = createReducer(initialState, (builder) => {
     .addCase(login, (_, action) => {
       return action.payload;
     })
-    .addCase(logout, (_, __) => {
+    .addCase(logout, () => {
       return {
         id: null,
         email: null,
