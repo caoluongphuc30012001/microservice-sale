@@ -15,11 +15,11 @@ services:
       - MYSQL_HOST=mysql-server
       - MYSQL_PORT=3306
       - AMQP_URL=amqp://guest:guest@rabbitmq-server:5672
-    volumes:
-      - ./auth-server:/app/auth-server
     depends_on:
       - mysql-server
       - rabbitmq-server
+    volumes:
+      - ./auth-server/src:/app/auth-server/src
 
 
   send-mail-server:
@@ -35,7 +35,7 @@ services:
     restart: unless-stopped
     healthcheck:
       test:  echo "healthy"
-      interval: 50s
+      interval: 20s
       timeout: 10s
       retries: 5
 
@@ -51,6 +51,7 @@ services:
       MYSQL_PASSWORD: password
     volumes:
       - ./db:/var/lib/mysql
+      - ./startup/startup.sql:/startup/startup.sql
 
 
   rabbitmq-server:
