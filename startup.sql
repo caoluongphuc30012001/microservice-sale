@@ -1,3 +1,5 @@
+create database sale;
+use sale;
 create table User(
   id int PRIMARY KEY auto_increment not null,
   email varchar(255) not null,
