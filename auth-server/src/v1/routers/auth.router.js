@@ -115,4 +115,6 @@ router.get("/", (req, res) => {
 
 router.post("/forgot-password", authController.forgotPassword);
 
+
+
 module.exports = router;
