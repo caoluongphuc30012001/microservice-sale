@@ -15,7 +15,6 @@ router.get("/google", passport.authenticate("google", ["profile", "email"]));
 
 router.get("/login/failed", async (req, res) => {
   try {
-    console.log("session:", req.session.passport.user.emails);
     res.status(200).send({
       code: 0,
       data: req.user,

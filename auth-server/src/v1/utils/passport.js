@@ -22,6 +22,5 @@ passport.serializeUser((user, done) => {
 
 //Hàm này sử dụng để lấy thông tin đăng nhập người dùng từ session
 passport.deserializeUser((user, done) => {
-  console.log("2");
-  done(null, user);
+  done(null, user.displayName);
 });

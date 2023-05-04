@@ -10,6 +10,8 @@ const compression = require("compression");
 const session = require("express-session");
 const passport = require("passport");
 
+const redisStoreInit = require("./databases/redisStore.init.js");
+
 require("./utils/passport.js");
 
 const app = express();
@@ -36,6 +38,7 @@ app.use(
     secret: process.env.SESSION_SECRET || "microservice-sale",
     resave: false,
     saveUninitialized: true,
+    store: redisStoreInit
   })
 );
 
@@ -64,6 +67,11 @@ const options = {
 };
 
 const specs = swaggerJsdoc(options);
+
+// app.use((req,res,next)=>{
+//   console.log(req);
+//   next()
+// })
 
 app.use("/v1/api/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
 

@@ -2,6 +2,15 @@ version: "3"
 
 services:
 
+
+  redis-server:
+    image: 'bitnami/redis:latest'
+    container_name: redis-service
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - 6379:6397
+
   auth-server:
     build: ./auth-server
     container_name: auth-service
@@ -15,9 +24,11 @@ services:
       - MYSQL_HOST=mysql-server
       - MYSQL_PORT=3306
       - AMQP_URL=amqp://guest:guest@rabbitmq-server:5672
+      - REDIS_HOST=redis-server
     depends_on:
       - mysql-server
       - rabbitmq-server
+      - redis-server
     volumes:
       - ./auth-server/src:/app/auth-server/src
 
