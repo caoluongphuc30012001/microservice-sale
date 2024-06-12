@@ -10,6 +10,11 @@ jobs:
       -
         name: Checkout
         uses: actions/checkout@v4
+      - 
+        name: Build tag name
+        shell: bash
+        run: |
+          echo "build_tag=${{ secrets.DOCKERHUB_USERNAME }}/micro-sale/auth-server:$(date +"%Y-%m-%d")" >> $GITHUB_ENV
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v3
