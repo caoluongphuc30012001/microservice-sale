@@ -8,6 +8,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
+      - name: Navigate to build directory
+        run: cd ./auth-server
+
       - name: Build tag name
         shell: bash
         run: |
@@ -23,5 +27,4 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/your-image-name:latest
-        working-directory: ./auth-server
+          tags: ${{ env.build_tag }}
