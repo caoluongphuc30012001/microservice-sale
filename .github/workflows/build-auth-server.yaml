@@ -28,3 +28,5 @@ jobs:
         with:
           push: true
           tags: ${{ env.build_tag }}
+          context: .  # Build context: current directory (runner's workspace)
+          file: Dockerfile
