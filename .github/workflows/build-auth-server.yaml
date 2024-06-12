@@ -9,9 +9,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Navigate to build directory
-        run: cd ./auth-server
-
       - name: Build tag name
         shell: bash
         run: |
@@ -28,5 +25,5 @@ jobs:
         with:
           push: true
           tags: ${{ env.build_tag }}
-          context: .  # Build context: current directory (runner's workspace)
+          context: ./auth-server  # Build context: current directory (runner's workspace)
           file: Dockerfile
