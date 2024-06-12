@@ -12,13 +12,13 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      
-      name: Build tag name
+
+      - uses: actions/checkout@v2
+      - name: Build tag name
         shell: bash
         run: |
           echo "build_tag=${{ secrets.DOCKERHUB_USERNAME }}/micro-sale/auth-server:$(date +"%Y-%m-%d")" >> $GITHUB_ENV
 
-      - uses: actions/checkout@v2
       - name: Build the Docker image and push to Dockerhub
         run: |
           docker build ./auth-server --file Dockerfile --tag ${{ env.build_tag }}
