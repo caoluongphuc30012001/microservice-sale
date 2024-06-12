@@ -17,6 +17,6 @@ jobs:
       - name: Build the Docker image and push to Dockerhub
         shell: bash
         run: |
-          export BUILD_TAG = "${{ secrets.DOCKERHUB_USERNAME }}/micro-sale/auth-server:$(date +%s)"
-          docker build ./auth-server --file Dockerfile --tag $BUILD_TAG
-          docker push $BUILD_TAG
+          echo "BUILD_TAG=${{ secrets.DOCKERHUB_USERNAME }}/micro-sale/auth-server:$(date +"%Y-%m-%d")" >> $GITHUB_ENV
+          docker build ./auth-server --file Dockerfile --tag ${{ env.BUILD_TAG }}
+          docker push ${{ env.BUILD_TAG }}
