@@ -15,7 +15,8 @@ jobs:
 
       - uses: actions/checkout@v2
       - name: Build the Docker image and push to Dockerhub
+        shell: bash
         run: |
-          echo "${{ secrets.DOCKERHUB_USERNAME }}/micro-sale/auth-server:$(date +%s)" >> BUILD_TAG 
-          docker build ./auth-server --file Dockerfile --tag BUILD_TAG
+          export BUILD_TAG = ${{ secrets.DOCKERHUB_USERNAME }}/micro-sale/auth-server:$(date +%s)
+          docker build ./auth-server --file Dockerfile --tag $BUILD_TAG
           docker push $BUILD_TAG
