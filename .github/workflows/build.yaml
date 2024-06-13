@@ -26,3 +26,19 @@ jobs:
             dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
             context: ./sale-server
             dockerhub-repository: micro-sale-sale-server
+      - 
+        name: Build admin frontend server
+        uses: ./.github/actions/build-image-server
+        with:
+            dockerhub-username: ${{ secrets.DOCKERHUB_USERNAME }}
+            dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
+            context: ./admin-frontend-server
+            dockerhub-repository: micro-sale-admin-frontend-server
+      - 
+        name: Build send mail server
+        uses: ./.github/actions/build-image-server
+        with:
+            dockerhub-username: ${{ secrets.DOCKERHUB_USERNAME }}
+            dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
+            context: ./send-mail-server
+            dockerhub-repository: micro-sale-send-mail-server
