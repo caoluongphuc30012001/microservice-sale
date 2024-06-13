@@ -32,7 +32,7 @@ jobs:
         with:
             dockerhub-username: ${{ secrets.DOCKERHUB_USERNAME }}
             dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
-            context: ./admin-frontend-server
+            context: ./admin-front-end
             dockerhub-repository: micro-sale-admin-frontend-server
       - 
         name: Build send mail server
