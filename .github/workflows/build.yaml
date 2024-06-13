@@ -11,10 +11,18 @@ jobs:
         name: Checkout
         uses: actions/checkout@v4
       - 
-        name: Build tag name
+        name: Build auth server
         uses: ./.github/actions/build-image-server
         with:
             dockerhub-username: ${{ secrets.DOCKERHUB_USERNAME }}
             dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
             context: ./auth-server
             dockerhub-repository: micro-sale-auth-server
+      - 
+        name: Build sale server
+        uses: ./.github/actions/build-image-server
+        with:
+            dockerhub-username: ${{ secrets.DOCKERHUB_USERNAME }}
+            dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
+            context: ./sale-server
+            dockerhub-repository: micro-sale-sale-server
