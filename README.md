@@ -1,4 +1,4 @@
-# Book Sale Website
+# Book Store Website
 ___
 ## Technologies
 These are technologies and libraries used to build this application:
